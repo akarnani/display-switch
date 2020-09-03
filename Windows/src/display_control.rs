@@ -31,10 +31,11 @@ pub fn log_current_source() -> Result<()> {
     Ok(())
 }
 
-pub fn switch_to(source: InputSource) -> Result<()> {
+pub fn switch_to(source: &[InputSource]) -> Result<()> {
     for mut ddc in Monitor::enumerate()? {
-        info!("Setting monitor '{:?}' to {:?}", ddc, source);
-        ddc.set_vcp_feature(INPUT_SELECT, source as u16)?;
+        let s = source[ddc.handle() as usize];
+        info!("Setting monitor '{:?}' to {:?}", ddc, s);
+        ddc.set_vcp_feature(INPUT_SELECT, s as u16)?;
     }
     Ok(())
 }

@@ -13,7 +13,7 @@ use crate::display_control;
 #[derive(Debug, Deserialize)]
 pub struct Configuration {
     pub usb_device: String,
-    pub monitor_input: display_control::InputSource,
+    pub monitor_input: std::vec::Vec<display_control::InputSource>,
 }
 
 impl Configuration {
@@ -36,7 +36,7 @@ impl Configuration {
             .ok_or(anyhow!("Config directory not found"))?
             .join("display-switch");
         std::fs::create_dir_all(&config_dir)?;
-        Ok(config_dir.join("display-switch.ini"))
+        Ok(config_dir.join("display-switch.toml"))
     }
 
     pub fn log_file_name() -> Result<std::path::PathBuf> {

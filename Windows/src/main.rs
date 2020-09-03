@@ -14,6 +14,7 @@ mod pnp_detect;
 mod usb_devices;
 
 fn main() {
+
     logging::init_logging().unwrap();
     let config = configuration::Configuration::load().unwrap();
     let mut detector = usb_devices::UsbChangeDetector::new().unwrap();
@@ -23,7 +24,7 @@ fn main() {
         if added_devices.contains(&config.usb_device) {
             info!("Detected device we're looking for {:?}", &config.usb_device);
             display_control::wiggle_mouse();
-            display_control::switch_to(config.monitor_input).unwrap_or_else(|err| {
+            display_control::switch_to(config.monitor_input.as_slice()).unwrap_or_else(|err| {
                 error!("Cannot switch monitor input: {:?}", err);
             });
         }
